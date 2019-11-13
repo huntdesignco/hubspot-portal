@@ -70,7 +70,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.answer-add textarea { border: solid 1px rgba(0,0,0,0.15); }
+.answer-add textarea { 
+    border: solid 1px rgba(0,0,0,0.15); 
+    width: 100% !important;
+}
 
 /*****************CHAT BODY *******************/
 .chat-body { overflow-x: auto; }

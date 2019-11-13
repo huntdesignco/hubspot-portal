@@ -172,6 +172,7 @@ class Core
       'hs_ticket_category',
       'hs_ticket_id',
       'hs_ticket_priority',
+      'hs_pipeline',
       'hs_pipeline_stage',
       'hubspot_owner_id'
     );
@@ -266,16 +267,32 @@ class Core
   }
 
   function filterTickets() {
+    $url = '/crm-pipelines/v1/pipelines/tickets';
+    $params = '';
+
+    $pipelines = $this->api->get($url,$params);
+
     $this->tickets_open = array();
     $this->tickets_closed = array();
 
-    $closed = constant('TICKET_CLOSED');
-    $open = constant('TICKET_OPEN');
-
     foreach ($this->tickets as &$ticket) {
-      $status = $this->getTicket($ticket)['properties']['hs_pipeline_stage']['value'];
-      if (in_array($status, $closed)) { array_push($this->tickets_closed, $ticket); }
-      elseif (in_array($status, $open)) { array_push($this->tickets_open, $ticket); }
+      $ticket_details = $this->getTicket($ticket);
+
+      foreach ($pipelines as &$pipeline) {
+        if ($pipeline[0]['pipelineId'] == $ticket_details['properties']['hs_pipeline']['value']) {
+
+          foreach ($pipeline[0]['stages'] as &$stage) {
+            if ($stage['stageId'] == $ticket_details['properties']['hs_pipeline_stage']['value']) {
+              if ($stage['metadata']['isClosed'] == 'true') {
+                array_push($this->tickets_closed, $ticket);
+              }
+              else {
+                array_push($this->tickets_open, $ticket);
+              }
+            }
+          }
+        }
+      }
     }
     $this->tickets_open = array_reverse($this->tickets_open);
     $this->tickets_closed = array_reverse($this->tickets_closed);

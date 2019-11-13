@@ -2,8 +2,8 @@
 
 include(dirname(__FILE__)."/api.php");
 
-// Some basic configuration settings for XTC
-define( 'SITE_DOMAIN', 'portal.hubspot.local' );
+// Some basic configuration settings
+define( 'SITE_DOMAIN', 'yoursite.host.name' );
 define( 'SITE_FOLDER', '');
 define( 'USE_SSL', false);
 
