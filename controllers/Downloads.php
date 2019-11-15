@@ -29,11 +29,11 @@ class Controller
     }
 
     // Create and store the filename
-    $file = 'xtuple-' . $software . '-' . $version . '-' . $platform . $extension;
+    $file = $software . '-' . $version . '-' . $platform . $extension;
     $filename = dirname(__FILE__) . '/../assets/files/' . $file;
 
     // Check if file exists
-    if (file_exists($filename) && $this->model->data['logged_in'] == "true") {
+    if (file_exists($filename) && $portal->is_logged_in()) {
       $this->model->data['file_exists'] = "true";
       $this->model->data['filename'] = $filename;
 
@@ -61,7 +61,7 @@ class Controller
         'site_url' => $portal->site_url
       );
     }
-    elseif ($this->model->data['logged_in'] != "true") { $portal->go_login(); }
+    elseif (!$portal->logged_in()) { $portal->go_login(); }
   }
 }
 

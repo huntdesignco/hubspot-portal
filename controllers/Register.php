@@ -260,7 +260,7 @@ class Controller
                                     </tr>
                                   </tbody>
                                 </table>
-                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">If you have any issues activating your account, please <a href="https://xtuple.com/portal-contact-us">contact your Customer Success Team</a> with your concerns.</p>
+                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">If you have any issues activating your account, please <a href="' . $portal->site_url . '/contact-us">contact your Customer Success Team</a> with your concerns.</p>
                               </td>
                             </tr>
                           </table>

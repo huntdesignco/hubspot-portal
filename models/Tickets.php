@@ -19,7 +19,7 @@ class Model
     );
 
     // Check if user is logged in before displaying tickets or ticket data
-    if ($this->data['method'] == 'GET' && isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+    if ($this->data['method'] == 'GET' && $portal->is_logged_in()) {
 
       if (!$portal->has_email_config($_SESSION['hs_id'])) { $this->data['has_email_config'] = false; }
       else { $this->data['has_email_config'] = true; }
@@ -73,7 +73,7 @@ class Model
         // Add ticket to open tickets array if exists
         if (!empty($portal->tickets_open[$x])) {
          $ticket = $portal->getTicket($portal->tickets_open[$x]);
-         $ticket['xtu_status'] = "open";
+         $ticket['status'] = "open";
 
          array_push($this->data['tickets_open'], $ticket);
         }
@@ -81,7 +81,7 @@ class Model
         // Add ticket to closed tickets array if exists
         if (!empty($portal->tickets_closed[$x])) {
          $ticket = $portal->getTicket($portal->tickets_closed[$x]);
-         $ticket['xtu_status'] = "closed";
+         $ticket['status'] = "closed";
 
          array_push($this->data['tickets_closed'], $ticket);
 
@@ -96,14 +96,14 @@ class Model
         // Add ticket to open tickets array if exists
         if (!empty($portal->tickets_open[$x])) {
           $ticket = $portal->getTicket($portal->tickets_open[$x]);
-          $ticket['xtu_status'] = "open";
+          $ticket['status'] = "open";
 
           array_push($this->data['tickets_all'], $ticket);
         }
         // Add ticket to closed tickets array if exists
         if (!empty($portal->tickets_closed[$x])) {
           $ticket = $portal->getTicket($portal->tickets_closed[$x]);
-          $ticket['xtu_status'] = "closed";
+          $ticket['status'] = "closed";
 
           array_push($this->data['tickets_all'], $ticket);
         }
@@ -126,14 +126,33 @@ class Model
 
         // Store information about the ticket for twig to parse
         $this->data['ticket_data'] = $portal->getTicket($this->data['id']);
+
+
+        /* Get the status of a ticket
         $status = $this->data['ticket_data']['properties']['hs_pipeline_stage']['value'];
 
-        $closed = constant('TICKET_CLOSED');
-        $open = constant('TICKET_OPEN');
-
-        if (in_array($status, $open)) { $this->data['ticket_data']['xtu_status'] = "open"; }
-        elseif (in_array($status, $closed)) { $this->data['ticket_data']['xtu_status'] = "closed"; }
-
+        // Get pipelines
+        $url = '/crm-pipelines/v1/pipelines/tickets';
+        $params = '';
+    
+        $pipelines = $portal->api->get($url,$params);
+        foreach ($pipelines as &$pipeline) {
+          if ($pipeline[0]['pipelineId'] == $ticket_details['properties']['hs_pipeline']['value']) {
+  
+            foreach ($pipeline[0]['stages'] as &$stage) {
+              if ($stage['stageId'] == $ticket_details['properties']['hs_pipeline_stage']['value']) {
+                if ($stage['metadata']['isClosed'] == 'true') {
+                  $this->data['ticket_data']['status'] = "closed";
+                }
+                else {
+                  $this->data['ticket_data']['status'] = "open";
+                }
+              }
+            }
+          }
+        }
+        */
+        
         // Store the data of the ticket for twig to parse
         $this->data['date_timestamp'] = floor($this->data['ticket_data']['properties']['createdate']['value'] / 1000);
 
@@ -167,7 +186,7 @@ class Model
         }
       }
     }
-    elseif ($this->data['logged_in'] != "true") { $portal->go_login(); }
+    elseif (!$portal->is_logged_in()) { $portal->go_login(); }
     // Set template file
     $this->template = "tickets.html.twig";
   }

@@ -24,7 +24,7 @@ class Model
     }
     elseif ($route['page'] == 'downloads') {
 
-      if ($this->data['logged_in'] != "true") { $portal->go_login(); }
+      if (!$this->data['logged_in']) { $portal->go_login(); }
       else { $this->template = "downloads.html.twig"; }
     }
 

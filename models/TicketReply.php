@@ -15,7 +15,7 @@ class Model
     );
 
     // Check if we are submitting a reply
-    if ($this->data['logged_in'] && $this->data['method'] == "POST") {
+    if ($portal->is_logged_in() && $this->data['method'] == "POST") {
 
       // Get the data needed to send reply
       $subject = $_POST['lastSubject'];

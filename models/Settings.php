@@ -14,7 +14,7 @@ class Model
       'method'=> $_SERVER['REQUEST_METHOD']
     );
 
-    if ($this->data['logged_in'] != "true") { $portal->go_login(); }
+    if (!$portal->is_logged_in()) { $portal->go_login(); }
     else {
       // Create database object
       $this->db = new \PortalDB();

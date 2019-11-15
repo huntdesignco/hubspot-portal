@@ -45,6 +45,10 @@ $portal->router->addRoute("/(.*)", array("page"), "GET");
 $route = $portal->router->parse(($portal->site_folder !== '' ? substr($_SERVER['REQUEST_URI'],(strlen($portal->site_folder) + 1)) : $_SERVER['REQUEST_URI']), $_SERVER['REQUEST_METHOD']);
 
 reset($route);
+
+// Set current page
+$portal->current_page = (isset($route['controller']) ? $route['controller'] : ($route['page'] == '' ? 'home' : $route['page']));
+
 if (key($route) == 'page') {
   $portal->header($route);
   $portal->navigation($route);
@@ -57,4 +61,6 @@ elseif (key($route) == 'controller') {
   $portal->controller($route);
   $portal->footer($route);
 }
+
+
 ?>

@@ -19,12 +19,12 @@
       {% set timestamp = ((ticket_data.properties.createdate.value / 1000) - 14400)|round(0, 'floor') %}
 
 
-      <div class="content container-fluid bootstrap snippets">
+      <div class="content container-fluid">
 
         <div class="row">
           <div class="col-sm-12 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
             <div class="col-inside-lg decor-default text-center ticket-id">
-              <div><p class="d-flex justify-content-between align-items-center mb-0"><small class="status {{ ticket_data.xtu_status }}">{{ ticket_data.xtu_status }}</small> <span>Ticket number: <strong>#{{ ticket_data.properties.hs_ticket_id.value }}</strong></span> &nbsp</p></div>
+              <div><p class="d-flex justify-content-between align-items-center mb-0"><small class="status {{ ticket_data.status }}">{{ ticket_data.status }}</small> <span>Ticket number: <strong>#{{ ticket_data.properties.hs_ticket_id.value }}</strong></span> &nbsp</p></div>
             </div>
           </div>
         </div>
@@ -34,6 +34,7 @@
             <div class="col-inside-lg decor-default ticket-details">
               <div class="subject"><h4 class="mb-0">{{ ticket_data.properties.subject.value }}</h4></div>
               <div class="description"><p class="mb-2">{{ ticket_data.properties.content.value }}</p></div>
+              <hr>
               <div class="date"><small class="mb-0">Created on {{ timestamp|date('M d, Y h:i:s A') }}</small></div>
             </div>
           </div>
@@ -141,7 +142,7 @@
         
         <a href="/tickets/view/{{ ticket.properties.hs_ticket_id.value }}" ticket-num="{{ counter }}" ticket-id="{{ ticket.properties.hs_ticket_id.value }}" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex justify-content-between align-items-center">
-            <small class="status {{ ticket.xtu_status }}">{{ ticket.xtu_status }}</small>
+            <small class="status {{ ticket.status }}">{{ ticket.status }}</small>
             <small class="status all">#{{ ticket.properties.hs_ticket_id.value }}</small>
           </div>
           <div class="d-flex w-100 justify-content-between mt-2">

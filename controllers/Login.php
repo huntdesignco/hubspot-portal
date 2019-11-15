@@ -11,7 +11,7 @@ class Controller
     $this->model = $model;
 
     // Re-direct if already logged in
-    if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
+    if ($portal->is_logged_in()) {
       header("Location: " . $portal->site_url . "/tickets");
       die();
     }

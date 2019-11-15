@@ -37,14 +37,6 @@ class Core
 
   public function __construct() {
 
-    // Globals
-    $this->current_page = basename($_SERVER['PHP_SELF']);
-    $this->site_folder = constant('SITE_FOLDER');
-    $this->ssl_enabled = constant('USE_SSL');
-    $this->site_domain = constant('SITE_DOMAIN');
-    $this->site_url = ($this->ssl_enabled == true ? 'https://' : 'http://') . $this->site_domain . (isset($this->site_folder) === true && $this->site_folder !== '' ? '/' . $this->site_folder : '');
-    $this->logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == "true" ? "true" : "false");
-
     // Initiate routing object
     $this->router = new Core\Router();
     $this->options = array(
@@ -52,6 +44,13 @@ class Core
       'debug' => false,
       'cache'=> false
     );
+
+    // Globals
+    $this->site_folder = constant('SITE_FOLDER');
+    $this->ssl_enabled = constant('USE_SSL');
+    $this->site_domain = constant('SITE_DOMAIN');
+    $this->site_url = ($this->ssl_enabled == true ? 'https://' : 'http://') . $this->site_domain . (isset($this->site_folder) === true && $this->site_folder !== '' ? '/' . $this->site_folder : '');
+    $this->logged_in = (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == "true" ? true : false);
 
     // Initiate hubspot API
     $this->api = new Core\HubspotAPI(constant('API_KEY'));
@@ -401,7 +400,7 @@ class Core
 
   // Check if user is logged in
   function is_logged_in() {
-      return (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true ? 'true' : 'false');
+      return $this->logged_in;
   }
 
   // Redirect to login page

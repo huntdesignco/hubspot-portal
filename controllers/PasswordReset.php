@@ -183,7 +183,7 @@ class Controller
               <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
                 <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                   <tr>
-                    <td><img src="https://portal.xtuple.com/assets/images/logo_v2.png" alt="Logo" style="width: 120px"></td>
+                    <td><img src="' . $portal->site_url . '/assets/images/logo.png" alt="Logo" style="width: 120px"></td>
                   </tr>
                 </table>
                 <!-- START CENTERED WHITE CONTAINER -->
@@ -212,7 +212,7 @@ class Controller
                                 </tr>
                               </tbody>
                             </table>
-                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">If you have any issues resetting your password, please <a href="https://xtuple.com/portal-contact-us">contact your Customer Success Team</a> with your concerns.</p>
+                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">If you have any issues resetting your password, please <a href="' . $portal->site_url . '/contact-us">contact your Customer Success Team</a> with your concerns.</p>
                           </td>
                         </tr>
                       </table>
