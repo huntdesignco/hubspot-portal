@@ -127,31 +127,31 @@ class Model
         // Store information about the ticket for twig to parse
         $this->data['ticket_data'] = $portal->getTicket($this->data['id']);
 
-
-        /* Get the status of a ticket
+        // Get the status of a ticket
         $status = $this->data['ticket_data']['properties']['hs_pipeline_stage']['value'];
 
         // Get pipelines
         $url = '/crm-pipelines/v1/pipelines/tickets';
         $params = '';
-    
+        
         $pipelines = $portal->api->get($url,$params);
+
         foreach ($pipelines as &$pipeline) {
-          if ($pipeline[0]['pipelineId'] == $ticket_details['properties']['hs_pipeline']['value']) {
-  
+          if ($pipeline[0]['pipelineId'] == $this->data['ticket_data']['properties']['hs_pipeline']['value']) {
+            
             foreach ($pipeline[0]['stages'] as &$stage) {
-              if ($stage['stageId'] == $ticket_details['properties']['hs_pipeline_stage']['value']) {
+              if ($stage['stageId'] == $this->data['ticket_data']['properties']['hs_pipeline_stage']['value']) {
                 if ($stage['metadata']['isClosed'] == 'true') {
-                  $this->data['ticket_data']['status'] = "closed";
+                  $this->data['ticket_data']['hs_status'] = "closed";
                 }
                 else {
-                  $this->data['ticket_data']['status'] = "open";
+                  $this->data['ticket_data']['hs_status'] = "open";
                 }
               }
             }
           }
         }
-        */
+        
         
         // Store the data of the ticket for twig to parse
         $this->data['date_timestamp'] = floor($this->data['ticket_data']['properties']['createdate']['value'] / 1000);

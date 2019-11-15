@@ -308,6 +308,9 @@ class Core
     if ($max < 1) { $max = 1; }
     return ceil($max);
   }
+
+
+
   function email($to, $subject, $message, $alt) {
     $mail = new PHPMailer(true);
 
@@ -337,6 +340,8 @@ class Core
 //        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
   }
+
+
 
   function emailUser($to, $subject, $message, $alt, $hs_id, $headers) {
     // Connect database
@@ -397,6 +402,8 @@ class Core
       }
     }
   }
+
+
 
   // Check if user is logged in
   function is_logged_in() {
@@ -470,6 +477,7 @@ class Core
     else { return true; }
   }
 }
+
 
 // Function to insert item into array at specific position
 function array_insert($array, $item, $position)
